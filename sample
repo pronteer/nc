@@ -1,0 +1,10 @@
+# ===== 보안 정보 (필수) =====
+# Discord Bot Token - Discord Developer Portal에서 받기
+DISCORD_BOT_TOKEN=MTQ1MzI1ODYyMzI2MTM0Nzg2MA.G5Vv3h.0y7xi-dBGI3jO2JbGHYeIduobpqeycpT-98lE4
+
+# ===== 데이터베이스 =====
+DATABASE_URL=sqlite:///data/bot.db
+
+# ===== 로그 레벨 =====
+# DEBUG, INFO, WARNING, ERROR, CRITICAL
+LOG_LEVEL=DEBUG
