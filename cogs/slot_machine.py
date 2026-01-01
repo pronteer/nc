@@ -84,9 +84,12 @@ class SlotMachineCommands(commands.Cog):
                     if result['type'] == 'jackpot':
                         result_text = f"{self.EMOJI_FIRE} **잭팟!!!** {self.EMOJI_FIRE}\n"
                         result_text += f"**{result['name']}** 3개 일치!"
-                    else:
-                        result_text = f"{self.EMOJI_TROPHY} **승리!**\n"
+                    elif result['type'] == 'triple':
+                        result_text = f"{self.EMOJI_TROPHY} **대박!**\n"
                         result_text += f"**{result['name']}** 3개 일치!"
+                    else:  # double
+                        result_text = f"✨ **당첨!**\n"
+                        result_text += f"**{result['name']}** 2개 일치!"
                     
                     result_embed.add_field(
                         name="🎊 당첨!",
@@ -211,8 +214,10 @@ class SlotMachineCommands(commands.Cog):
             return discord.Color.red()
         elif result['type'] == 'jackpot':
             return discord.Color.gold()
-        else:
+        elif result['type'] == 'triple':
             return discord.Color.green()
+        else:  # double
+            return discord.Color.blue()
 
 
 async def setup(bot: commands.Bot):

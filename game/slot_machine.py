@@ -14,13 +14,13 @@ class SlotMachine:
     
     # 심볼 정의
     SYMBOLS = {
-        '🍒': {'name': '체리', 'weight': 30, 'payout': 2},
-        '🍋': {'name': '레몬', 'weight': 25, 'payout': 3},
-        '🍊': {'name': '오렌지', 'weight': 20, 'payout': 5},
-        '🍇': {'name': '포도', 'weight': 15, 'payout': 10},
-        '🔔': {'name': '벨', 'weight': 7, 'payout': 20},
-        '💎': {'name': '다이아몬드', 'weight': 2.5, 'payout': 50},
-        '7️⃣': {'name': '세븐', 'weight': 0.5, 'payout': 100},
+        '🍒': {'name': '체리', 'weight': 30, 'payout_3': 5, 'payout_2': 0.5},
+        '🍋': {'name': '레몬', 'weight': 25, 'payout_3': 8, 'payout_2': 1},
+        '🍊': {'name': '오렌지', 'weight': 20, 'payout_3': 15, 'payout_2': 1},
+        '🍇': {'name': '포도', 'weight': 15, 'payout_3': 30, 'payout_2': 1},
+        '🔔': {'name': '벨', 'weight': 7, 'payout_3': 50, 'payout_2': 2},
+        '💎': {'name': '다이아몬드', 'weight': 2, 'payout_3': 200, 'payout_2': 5},
+        '7️⃣': {'name': '세븐', 'weight': 1, 'payout_3': 777, 'payout_2': 10},
     }
     
     MIN_BET = 10
@@ -49,8 +49,29 @@ class SlotMachine:
                 'win': True,
                 'symbol': reel1,
                 'name': symbol_data['name'],
-                'multiplier': symbol_data['payout'],
-                'type': 'jackpot' if reel1 == '7️⃣' else 'win'
+                'multiplier': symbol_data['payout_3'],
+                'type': 'jackpot' if reel1 == '7️⃣' else 'triple',
+                'match_count': 3
+            }
+        
+        # 2개 일치 체크
+        if reel1 == reel2 or reel2 == reel3 or reel1 == reel3:
+            # 어떤 심볼이 2개 일치했는지 찾기
+            if reel1 == reel2:
+                matched_symbol = reel1
+            elif reel2 == reel3:
+                matched_symbol = reel2
+            else:  # reel1 == reel3
+                matched_symbol = reel1
+            
+            symbol_data = self.SYMBOLS[matched_symbol]
+            return {
+                'win': True,
+                'symbol': matched_symbol,
+                'name': symbol_data['name'],
+                'multiplier': symbol_data['payout_2'],
+                'type': 'double',
+                'match_count': 2
             }
         
         # 불일치
@@ -59,7 +80,8 @@ class SlotMachine:
             'symbol': None,
             'name': None,
             'multiplier': 0,
-            'type': 'lose'
+            'type': 'lose',
+            'match_count': 0
         }
 
 
